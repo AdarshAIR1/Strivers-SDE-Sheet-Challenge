@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+
+vector<vector<long long int>> printPascal(int n) 
+{
+  // Write your code here.
+
+  vector<vector<long long int>> triangle;
+
+    // Base case
+    triangle.push_back({1});
+// 1 case solve baaki recursion sambhal lega
+    for (int i = 1; i < n; i++) {
+        vector<long long int> row(i + 1, 1);  
+// (except the first and last elements)
+        for (int j = 1; j < i; j++) {
+            row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j];
+        }
+
+        triangle.push_back(row);
+    }
+
+    return triangle;
+    
+
+}
