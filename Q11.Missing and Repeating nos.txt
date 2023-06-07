@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+
+pair<int,int> missingAndRepeating(vector<int> &arr, int n)
+{
+	//   your code here 
+	int i=0;
+	int ans=0;
+	int ans1=0;
+	while(i<n)
+	{
+		int index=arr[i]-1;
+		if(arr[i]!=arr[index])
+		{
+			swap(arr[i],arr[index]);
+		}
+		else
+		{
+			i++;
+		}
+	}
+	for(i=0;i<n;i++)
+	{
+		if(arr[i]!=i+1)
+		{
+			ans= i+1;
+		}
+	}
+	sort(arr.begin(),arr.end());
+	for(int i=0;i<n;i++)
+	{
+		if(arr[i]==arr[i+1])
+		{
+			ans1=arr[i];
+		}
+	}
+	return{ans,ans1};
+
+	
+}
