@@ -1,0 +1,42 @@
+#include <bits/stdc++.h> 
+
+bool isSafe(int node, vector<vector<int>>& graph, int n, int currColor, 
+    vector<int>& color)
+{
+    // check which nodes are connected to this 'node' 
+    for(int currNode=0; currNode<n; currNode++)
+    {
+        if(currNode!=node && graph[node][currNode]==1 && color[currNode] == currColor)
+            return false;
+    }
+    return true;
+}
+
+bool process(int node, vector<vector<int>>& graph, int m, int n, vector<int>& color)
+{
+    if(node == n)   //if you have colored all nodes
+        return true;
+        
+    // Try out all m colors on this 'node' 
+    for(int currColor = 1; currColor <= m; currColor++) 
+    {
+        if(isSafe(node, graph, n, currColor, color))
+        {
+            color[node] = currColor;
+            if(process(node+1, graph, m, n, color))     return true;
+            color[node] = 0;    //backtraking step
+        }
+    }
+    return false;
+}
+
+string graphColoring(vector<vector<int>>& graph, int m) {
+    
+    int n = graph.size();
+
+    vector<int> color(n, 0);
+    
+    if(process(0, graph, m, n, color))  return "YES";
+     
+    return "NO";
+}

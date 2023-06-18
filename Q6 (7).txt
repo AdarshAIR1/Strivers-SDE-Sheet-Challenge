@@ -1,0 +1,82 @@
+#include <bits/stdc++.h> 
+using namespace std;
+
+
+// function to get sum of all element in the vector
+long long int sumOf(vector<int> time){
+
+    long long int sum = 0;
+
+    for (int i = 0; i < time.size(); i++) {
+      sum += time[i];
+    }
+
+    return sum;
+}
+
+// to check if this partion length would distribute chapter in given days
+bool isPossible(vector<int> time, int parts, int size, long long int mid){
+
+	long long int timeSum = 0, dayCount = 1;
+    
+    for(int i = 0; i < time.size(); i++){
+		
+		// if the current chapter time on adding with previous chapter 
+		// become greater then the interval 
+		if(timeSum + time[i] > mid){
+
+			// increase the chapter count
+			dayCount++;
+            
+			// if the chapter count become more then given or
+			// if the time for current chapter is greater then interval 
+			// then it is not possible
+			if(dayCount > parts || time[i] > mid){
+			    return false;
+		    }
+            
+			// set pageSum to curr chapter time
+			timeSum = time[i];
+		}
+		// if it is within interval then add it ti the Sum
+		else {
+			timeSum += time[i];
+		}
+
+        // if day count become more then given so return false
+	    if(dayCount > parts){
+			return false;
+		}
+	}
+    
+	// if it is set then return true
+	return true;
+}
+
+// to get the minimum of maximum days to dedicate to chapters
+long long ayushGivesNinjatest(int n, int m, vector<int> time) 
+{	
+	long long int start = 0, end = sumOf(time);
+	
+	long long int mid = start + (end - start) / 2;
+
+    long long int ans = -1;
+
+	while(start <= end){
+        
+		// if with given mid interval having chapter distributed in given days
+		// is possible then save mid and search for lower element to do so
+		if(isPossible(time, n, m, mid)){
+			ans = mid;
+		    end = mid - 1;
+		}
+		// else if not then search for greater ele which can fit the chapter in given day
+		else {
+			start = mid + 1;
+		}
+
+		mid = start + (end - start) / 2;
+	}
+
+	return ans;
+}
