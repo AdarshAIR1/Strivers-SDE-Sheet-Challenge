@@ -1,0 +1,73 @@
+int floydWarshall(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+
+   const int N=100;
+
+const int INF=1e9;
+
+int dist_graph[N][N];
+
+ 
+
+    for(int i=0;i<N;i++)
+
+    {
+
+        for(int j=0;j<N;j++)
+
+        {
+
+            if(i==j)
+
+                dist_graph[i][j]=0;
+
+            else
+
+            dist_graph[i][j]=INF;
+
+        }
+
+    }
+
+   
+
+    for(int i=0;i<m;i++)
+
+    {
+
+       int v1=edges[i][0];
+
+       int v2=edges[i][1];
+
+       int wt=edges[i][2];
+
+        dist_graph[v1][v2]=wt;//directed graph
+
+    }
+
+    for(int k=1;k<=n;k++)//allowing levels to take participate for exploring another paths 
+
+    {
+
+        for(int i=1;i<=n;i++)//now traversing in matrix
+
+        {
+
+            for(int j=1;j<=n;j++)
+
+            {
+
+                if(dist_graph[i][k]!=INF&&dist_graph[k][j]!=INF)//if there is no path then no need to minimize
+
+              dist_graph[i][j]=min(dist_graph[i][j],dist_graph[i][k]+dist_graph[k][j]);//i to k ka distance + k to j ka distance
+
+            }
+
+        }
+
+    }
+
+    return dist_graph[src][dest];
+
+}
+
+ 
