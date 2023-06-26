@@ -1,0 +1,42 @@
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+vector<int> stringMatch(string text, string pattern) {
+    vector<int> occurrences;
+
+    int n = text.size();
+    int m = pattern.size();
+
+    // Generate the prefix function for the pattern
+    vector<int> prefix(m);
+    prefix[0] = 0;
+    int k = 0;
+    for (int i = 1; i < m; i++) {
+        while (k > 0 && pattern[k] != pattern[i]) {
+            k = prefix[k - 1];
+        }
+        if (pattern[k] == pattern[i]) {
+            k++;
+        }
+        prefix[i] = k;
+    }
+
+    // Perform the string matching
+    int q = 0; // Number of characters matched
+    for (int i = 0; i < n; i++) {
+        while (q > 0 && pattern[q] != text[i]) {
+            q = prefix[q - 1];
+        }
+        if (pattern[q] == text[i]) {
+            q++;
+        }
+        if (q == m) {
+            occurrences.push_back(i - m + 2);
+            q = prefix[q - 1];
+        }
+    }
+
+    return occurrences;
+}
