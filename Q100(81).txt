@@ -1,0 +1,24 @@
+int cutRod(vector<int> &price, int n)
+{
+	// Write your code here.
+	vector<vector<int>>dp(price.size(),vector<int>(n+1,-1));
+	for(int j=0;j<=n;j++){
+		dp[0][j]=price[0];
+	}
+	for(int i=1;i<price.size();i++){
+		for(int j=1;j<=n;j++){
+			int ans=-1e9;
+			for(int k=1;k<=j;k++){
+				if(i-k>=0){
+					ans=max(dp[i-k][j-k]+price[k-1],ans);
+                                } else {
+                                  ans = max(ans,price[k - 1]);
+                                }
+                        }
+                        dp[i][j] = ans;
+                }
+        }
+
+        
+        return dp[price.size() - 1][n];
+}
